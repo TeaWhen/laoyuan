@@ -10,7 +10,6 @@ require 'json'
 require 'sinatra/cookies'
 require 'sinatra/json'
 
-
 get '/' do
   haml :index
 end
