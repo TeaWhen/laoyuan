@@ -17,9 +17,11 @@ task :setup => :environment do
 end
 
 desc "Seed the database."
-task :seed do
-  queue! "ruby #{deploy_to}/current/db.rb"
-  queue! "ruby #{deploy_to}/current/seed.rb"
+task :seed => :environment do
+  seed do
+    queue! "ruby #{deploy_to}/current/db.rb"
+    queue! "ruby #{deploy_to}/current/seed.rb"
+  end
 end
 
 desc "Deploys the current version to the server."

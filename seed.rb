@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 require_relative 'db'
+require 'rubygems'
+require 'bundler/setup'
 
 questions = [
   "是否办班补课",
