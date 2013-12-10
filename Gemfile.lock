@@ -70,6 +70,7 @@ GEM
     rack_csrf (2.4.0)
       rack (>= 0.9)
     rake (10.1.0)
+    redis (3.0.6)
     shotgun (0.9)
       rack (>= 1.0)
     sinatra (1.4.4)
@@ -103,6 +104,7 @@ DEPENDENCIES
   haml
   mina
   rack_csrf
+  redis
   shotgun
   sinatra
   sinatra-contrib

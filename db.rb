@@ -15,13 +15,6 @@ class User
   property :nickname, String, :required => true
 end
 
-class Location
-  include DataMapper::Resource
-  property :id, Serial
-
-  property :ip, String, :required => true, :unique => true
-end
-
 class Question
   include DataMapper::Resource
   property :id, Serial

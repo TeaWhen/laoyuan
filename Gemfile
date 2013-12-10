@@ -14,6 +14,8 @@ gem 'dm-types'
 gem 'dm-core'
 gem 'data_mapper'
 
+gem 'redis'
+
 # Sinatra
 gem 'haml'
 gem 'sinatra'

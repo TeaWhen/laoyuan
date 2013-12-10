@@ -7,5 +7,6 @@ Desktop.ini
 test.*
 *.pid
 *.log
+*.rdb
 .ruby-gemset
 .ruby-version
