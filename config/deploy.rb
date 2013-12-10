@@ -19,8 +19,15 @@ end
 desc "Seed the database."
 task :seed => :environment do
   in_directory "#{deploy_to}/current" do
-    queue! "ruby db.rb"
-    queue! "ruby seed.rb"
+    queue "ruby db.rb"
+    queue "ruby seed.rb"
+  end
+end
+
+desc "Wake redis."
+task :redison do
+  in_directory "#{deploy_to}/current/dump" do
+    queue "/opt/redis/redis-server redis.conf"
   end
 end
 
@@ -31,9 +38,9 @@ task :deploy => :environment do
     invoke :'bundle:install'
 
     to :launch do
-      queue! "ruby #{deploy_to}/current/db.rb"
-      queue! "mkdir -p #{deploy_to}/current/tmp"
-      queue! "touch #{deploy_to}/current/tmp/restart.txt"
+      queue "ruby #{deploy_to}/current/db.rb"
+      queue "mkdir -p #{deploy_to}/current/tmp"
+      queue "touch #{deploy_to}/current/tmp/restart.txt"
     end
   end
 end
