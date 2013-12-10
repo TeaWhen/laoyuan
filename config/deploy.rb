@@ -23,7 +23,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
 
     to :launch do
-      # queue! "ruby #{deploy_to}/current/db.rb"
+      queue! "ruby #{deploy_to}/current/db.rb"
       queue! "mkdir -p #{deploy_to}/current/tmp"
       queue! "touch #{deploy_to}/current/tmp/restart.txt"
     end
