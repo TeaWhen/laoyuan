@@ -64,10 +64,10 @@
             = "#{quest.id}. #{quest.description}"
           %p
             %label.radio.inline
-              %input{name: "radio#{quest.id}", type: "radio", value: "yes"}/
+              %input{name: "#{quest.id}", type: "radio", value: "yes"}/
               是
             %label.radio.inline
-              %input{name: "radio1#{quest.id}", type: "radio", value: "no"}/
+              %input{name: "#{quest.id}", type: "radio", value: "no"}/
               否
         %hr{style: "margin-top: 40px;"}/
         %p.submit
