@@ -61,7 +61,7 @@
         = csrf_tag
         - @questions.each do |quest|
           %h2
-            = "#{quest.id}, #{quest.description}"
+            = "#{quest.id}. #{quest.description}"
           %p
             %label.radio.inline
               %input{name: "radio#{quest.id}", type: "radio", value: "yes"}/

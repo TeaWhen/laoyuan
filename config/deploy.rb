@@ -16,6 +16,12 @@ task :setup => :environment do
   invoke :'rvm:wrapper[2.0.0@laoyuan,laoyuan-server,ruby]'
 end
 
+desc "Seed the database."
+task :seed do
+  queue! "ruby #{deploy_to}/current/db.rb"
+  queue! "ruby #{deploy_to}/current/seed.rb"
+end
+
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
