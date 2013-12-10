@@ -18,9 +18,9 @@ end
 
 desc "Seed the database."
 task :seed => :environment do
-  seed do
-    queue! "ruby #{deploy_to}/current/db.rb"
-    queue! "ruby #{deploy_to}/current/seed.rb"
+  in_directory "#{deploy_to}/current" do
+    queue! "ruby db.rb"
+    queue! "ruby seed.rb"
   end
 end
 
