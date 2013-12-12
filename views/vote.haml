@@ -1,0 +1,20 @@
+.container-narrow
+  %h1 佳木斯市教师测评问卷
+  #progress{style: "background-position: 0px -135px;"}
+  %hr/
+  %form.form-horizontal{action: '/vote/', method: "post"}
+    = csrf_tag
+    %input{type: "hidden", name:"tid", value:"#{@teacher.id}"}
+    - @questions.each do |quest|
+      %h2
+        = "#{quest.id}. #{quest.description}"
+      %p
+        %label.radio.inline
+          %input{name: "#{quest.id}", type: "radio", value: "yes"}/
+          是
+        %label.radio.inline
+          %input{name: "#{quest.id}", type: "radio", value: "no"}/
+          否
+    %hr{style: "margin-top: 40px;"}/
+    %p.submit
+      %input.btn.btn-large.btn-success{type: "submit", value: "提交"}

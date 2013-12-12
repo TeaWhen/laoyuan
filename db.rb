@@ -6,13 +6,25 @@ require 'data_mapper'
 
 DataMapper::setup(:default, "mysql://laoyuan:laoyuan@localhost/laoyuan")
 
-class User
+class School
   include DataMapper::Resource
   property :id, Serial
 
   property :username, String, :required => true, :unique => true
   property :password, BCryptHash, :required => true
-  property :nickname, String, :required => true
+  property :school_name, String, :required => true
+
+  has n, :teachers
+end
+
+class Teacher
+  include DataMapper::Resource
+  property :id, Serial
+
+  property :name, String, :required => true
+  property :subject, String, :required => true
+
+  belongs_to :school
 end
 
 class Question

@@ -1,0 +1,17 @@
+.container-narrow
+  %h1 佳木斯市教师测评问卷
+  #progress{style: "background-position: 0px -45px;"}
+  %hr/
+  - if @errors
+    - @errors.each do |err_msg|
+      .alert
+        = err_msg
+  %form.form-horizontal{action: '/login/', method: "post"}
+    = csrf_tag
+    %h2 用户名
+    %input{:type => "text", :name => "username"}/
+    %h2 密码
+    %input{:type => "password", :name => "password"}/
+    %hr{style: "margin-top: 40px;"}/
+    %p.submit
+      %input.btn.btn-large.btn-success{type: "submit", value: "登录"}

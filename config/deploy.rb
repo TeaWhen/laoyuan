@@ -5,7 +5,7 @@ require 'mina/rvm'
 set :user, 'aquarhead'
 set :domain, 'eclair.teawhen.com'
 set :deploy_to, '/home/aquarhead/projects/laoyuan'
-set :repository, 'git@github.com:AquarHEAD/laoyuan.git'
+set :repository, 'git@github.com:TeaWhen/laoyuan.git'
 set :branch, 'master'
 
 task :environment do
@@ -25,10 +25,24 @@ task :seed => :environment do
 end
 
 desc "Wake redis."
-task :redison do
+task :wakeredis do
   in_directory "#{deploy_to}/current/dump" do
     queue "/opt/redis/redis-server redis.conf"
   end
+end
+
+desc "Wipe redis."
+task :wiperedis do
+  in_directory "#{deploy_to}/current/dump" do
+    queue "kill -9 `more pid/redis.pid`"
+    queue "rm -rf dump.rdb"
+  end
+end
+
+desc "Reload redis."
+task :reloadredis do
+  invoke :wiperedis
+  invoke :wakeredis
 end
 
 desc "Deploys the current version to the server."

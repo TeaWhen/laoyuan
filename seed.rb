@@ -15,3 +15,15 @@ questions.each do |quest|
   qq.description = quest
   qq.save
 end
+
+sch = School.new
+sch.username = "yizhong"
+sch.password = "laoyuan"
+sch.school_name = "一中"
+sch.save
+
+tea = Teacher.new
+tea.name = "老苑"
+tea.subject = "计算机"
+tea.school = sch
+tea.save
