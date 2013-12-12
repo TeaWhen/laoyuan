@@ -93,7 +93,7 @@ post '/vote/?' do
   unless school.teachers.include? teacher
     redirect '/login/'
   end
-  redis = Redis.new
+  redis = Redis.new(:port => 7772)
   redis.multi do
     redis.sadd "t#{teacher.id}ips", request.ip
     redis.sadd "votes", {ip: request.ip, raw: params.to_json, tid: teacher.id}
@@ -113,7 +113,7 @@ get '/thx/?' do
 end
 
 get '/dash/?' do
-  redis = Redis.new
+  redis = Redis.new(:port => 7772)
   @all_count = redis.scard "votes"
   @qs = []
   questions = Question.all
