@@ -1,16 +1,9 @@
 .container-narrow
-  %h1
-    = "共 #{@all_count} 張投票"
+  %h1 统计
   %hr/
-  %form.form-horizontal{action: '/thx/', method: "post"}
-    = csrf_tag
-    - @qs.each do |q|
-      %h2
-        = "#{q[:id]}. #{q[:description]}"
+  - @tinfos.each do |tinfo|
+    %h2
+      = "#{tinfo[:name]}, #{tinfo[:subject]}, #{tinfo[:school].school_name}"
+    - @qids.each do |qid|
       %p
-        %label.radio.inline
-          %input{name: "#{q[:id]}", type: "radio", value: "yes"}/
-          = "是 #{q[:count]}"
-        %label.radio.inline
-          %input{name: "#{q[:id]}", type: "radio", value: "no"}/
-          否
+        = "问题 #{qid}: #{tinfo[qid]} / #{tinfo[:count]}"

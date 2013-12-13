@@ -26,14 +26,14 @@ end
 
 desc "Wake redis."
 task :wakeredis do
-  in_directory "#{deploy_to}/current/dump" do
+  in_directory "#{deploy_to}/current/redis" do
     queue "/opt/redis/redis-server redis.conf"
   end
 end
 
 desc "Wipe redis."
 task :wiperedis do
-  in_directory "#{deploy_to}/current/dump" do
+  in_directory "#{deploy_to}/current/redis" do
     queue "kill -9 `more pid/redis.pid`"
     queue "rm -rf dump.rdb"
   end
@@ -53,7 +53,6 @@ task :deploy => :environment do
 
     to :launch do
       queue "ruby #{deploy_to}/current/db.rb"
-      queue "mkdir -p #{deploy_to}/current/tmp"
       queue "touch #{deploy_to}/current/tmp/restart.txt"
     end
   end

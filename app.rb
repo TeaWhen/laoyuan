@@ -97,7 +97,7 @@ post '/vote/?' do
   redis = Redis.new(:port => 7772)
   redis.multi do
     redis.sadd "t#{teacher.id}ips", request.ip
-    redis.sadd "votes", {ip: request.ip, raw: params.to_json, tid: teacher.id}
+    redis.sadd "t#{teacher.id}votes", {ip: request.ip, raw: params.to_json}
     questions = Question.all
     questions.each do |quest|
       if params[quest.id.to_s] == "yes"
@@ -115,11 +115,20 @@ end
 
 get '/dash/?' do
   redis = Redis.new(:port => 7772)
-  @all_count = redis.scard "votes"
-  @qs = []
-  questions = Question.all
-  questions.each do |quest|
-    @qs.push({description: quest.description, id: quest.id, count: redis.get("q#{quest.id}")})
+  @qids = Question.all.map { |e| e.id }
+  @tinfos = []
+  schools = School.all
+  schools.each do |sch|
+    sch.teachers.each do |t|
+      tea_info = {count: redis.scard("t#{t.id}votes"), name: t.name, subject: t.subject, school: t.school}
+      @qids.each do |qid|
+        tea_info[qid] = redis.get "t#{t.id}q#{qid}"
+        unless tea_info[qid]
+          tea_info[qid] = 0
+        end
+      end
+      @tinfos.push tea_info
+    end
   end
   haml :dash
 end
