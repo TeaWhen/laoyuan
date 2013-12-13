@@ -1,0 +1,8 @@
+.container-narrow
+  %h1 佳木斯市教师测评问卷
+  #progress{style: "background-position: 0px -45px;"}
+  %hr/
+  - @schools.each do |s|
+    %a{href: "/login/"}
+      %h2
+        = "#{s.school_name}"

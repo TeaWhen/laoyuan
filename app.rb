@@ -35,8 +35,9 @@ helpers do
 end
 
 get '/' do
-  @title = "登录"
-  haml :login
+  @title = "选学校"
+  @schools = School.all
+  haml :index
 end
 
 get '/login/?' do
