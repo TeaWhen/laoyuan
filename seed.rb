@@ -37,13 +37,13 @@ sch3.save
 tea1 = Teacher.new
 tea1.name = "老苑"
 tea1.subject = "计算机"
-tea1.school = sch
+tea1.school = sch1
 tea1.save
 
 tea2 = Teacher.new
 tea2.name = "占伟"
 tea2.subject = "物理"
-tea2.school = sch
+tea2.school = sch1
 tea2.save
 
 tea3 = Teacher.new
