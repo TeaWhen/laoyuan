@@ -12,6 +12,6 @@ test.*
 .ruby-version
 
 *.xls
-pass.txt
+pass*
 gen_pass.rb
 *.sql
