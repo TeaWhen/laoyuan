@@ -14,3 +14,4 @@ test.*
 *.xls
 pass.txt
 gen_pass.rb
+*.sql

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-source 'http://ruby.taobao.org/'
+source 'https://rubygems.org/'
 ruby '2.0.0'
 
 # DataMapper
