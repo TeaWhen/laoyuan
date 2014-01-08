@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-source "https://rubygems.org"
+source 'http://ruby.taobao.org/'
 ruby '2.0.0'
 
 # DataMapper
@@ -25,4 +25,6 @@ gem 'sinatra-contrib'
 group :development do
   gem 'mina'
   gem 'shotgun'
+  gem 'roo'
+  gem 'byebug'
 end

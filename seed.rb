@@ -3,11 +3,15 @@
 require_relative 'db'
 require 'rubygems'
 require 'bundler/setup'
+require 'roo'
+require 'json'
 
 questions = [
-  "是否办班补课",
-  "是否推销或变向推销教辅资料",
-  "教学态度是否端正"
+  "教学态度是否认真端正",
+  "是否有组织或参与违规有偿办班补课行为",
+  "是否有违规强制学生订购教辅资料行为",
+  "是否有体罚或以侮辱、歧视、孤立等方式变相体罚学生行为",
+  "是否有索要或违反规定收受家长、学生财物等行为"
 ]
 
 questions.each do |quest|
@@ -16,44 +20,33 @@ questions.each do |quest|
   qq.save
 end
 
-sch1 = School.new
-sch1.username = "yizhong"
-sch1.password = "laoyuan"
-sch1.school_name = "一中"
-sch1.save
+@schools = {}
 
-sch2 = School.new
-sch2.username = "erzhong"
-sch2.password = "12345"
-sch2.school_name = "二中"
-sch2.save
+xls = Roo::Excel.new("data/3.xls")
+f = File.new("pass.txt", "w")
 
-sch3 = School.new
-sch3.username = "sanzhong"
-sch3.password = "12345"
-sch3.school_name = "三中"
-sch3.save
+xls.each_with_pagename do |name, sheet|
+  (1..(sheet.last_row)).each do |rnum|
+    row = sheet.row(rnum)
+    sname = row[0].strip
+    unless @schools.keys.include? sname
+      sch = School.new
+      sch.username = sname
+      rand_pass = ""
+      8.times { rand_pass += "abcdefghijkmnpqrstuvwxyz123456789".split('').sample }
+      sch.password = rand_pass
+      sch.school_name = sname
+      sch.save
+      @schools[sname] = rand_pass
+    end
+    sch = School.first(:school_name => sname)
+    tea = Teacher.new
+    tea.name = row[2]
+    tea.subject = row[1].strip
+    tea.school = sch
+    tea.save
+  end
+end
 
-tea1 = Teacher.new
-tea1.name = "老苑"
-tea1.subject = "计算机"
-tea1.school = sch1
-tea1.save
-
-tea2 = Teacher.new
-tea2.name = "占伟"
-tea2.subject = "物理"
-tea2.school = sch1
-tea2.save
-
-tea3 = Teacher.new
-tea3.name = "测试老师"
-tea3.subject = "数学"
-tea3.school = sch2
-tea3.save
-
-tea4 = Teacher.new
-tea4.name = "测试2"
-tea4.subject = "英语"
-tea4.school = sch3
-tea4.save
+f.puts(@schools.to_json)
+f.close

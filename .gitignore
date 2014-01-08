@@ -10,3 +10,7 @@ test.*
 *.rdb
 .ruby-gemset
 .ruby-version
+
+*.xls
+pass.txt
+gen_pass.rb

@@ -73,7 +73,14 @@ end
 get '/teachers/?' do
   @title = "选教师"
   school = check_login
-  @teachers = school.teachers
+  teas = school.teachers
+  @teachers = {}
+  teas.each do |tea|
+    unless @teachers.keys.include? tea.subject
+      @teachers[tea.subject] = Array.new
+    end
+    @teachers[tea.subject] << tea
+  end
   haml :teachers
 end
 
@@ -95,13 +102,17 @@ post '/vote/?' do
     redirect '/login/'
   end
   redis = Redis.new(:port => 7772)
-  redis.multi do
-    redis.sadd "t#{teacher.id}ips", request.ip
-    redis.sadd "t#{teacher.id}votes", {ip: request.ip, raw: params.to_json}
-    questions = Question.all
-    questions.each do |quest|
-      if params[quest.id.to_s] == "yes"
-        redis.incr "t#{teacher.id}q#{quest.id}"
+  if (redis.sismember "t#{teacher.id}ips", request.ip)
+    redirect '/err/'
+  else
+    redis.multi do
+      redis.sadd "t#{teacher.id}ips", request.ip
+      redis.sadd "t#{teacher.id}votes", {ip: request.ip, raw: params.to_json}
+      questions = Question.all
+      questions.each do |quest|
+        if params[quest.id.to_s] == "yes"
+          redis.incr "t#{teacher.id}q#{quest.id}"
+        end
       end
     end
   end
@@ -113,22 +124,29 @@ get '/thx/?' do
   haml :thx
 end
 
+get '/err/?' do
+  @title = "错误"
+  haml :err
+end
+
 get '/dash/?' do
-  redis = Redis.new(:port => 7772)
-  @qids = Question.all.map { |e| e.id }
-  @tinfos = []
-  schools = School.all
-  schools.each do |sch|
-    sch.teachers.each do |t|
-      tea_info = {count: redis.scard("t#{t.id}votes"), name: t.name, subject: t.subject, school: t.school}
-      @qids.each do |qid|
-        tea_info[qid] = redis.get "t#{t.id}q#{qid}"
-        unless tea_info[qid]
-          tea_info[qid] = 0
+  if params[:token] == "gGQtQbfMbnrdcUJknAgAHRmZeDAMJYXNF9xFQwG6vCYcWHzbHxCJqAd7dWEv2xegnDHZ5PSQ"
+    redis = Redis.new(:port => 7772)
+    @qids = Question.all.map { |e| e.id }
+    @tinfos = []
+    schools = School.all
+    schools.each do |sch|
+      sch.teachers.each do |t|
+        tea_info = {count: redis.scard("t#{t.id}votes"), name: t.name, subject: t.subject, school: t.school}
+        @qids.each do |qid|
+          tea_info[qid] = redis.get "t#{t.id}q#{qid}"
+          unless tea_info[qid]
+            tea_info[qid] = 0
+          end
         end
+        @tinfos.push tea_info
       end
-      @tinfos.push tea_info
     end
+    haml :dash
   end
-  haml :dash
 end
