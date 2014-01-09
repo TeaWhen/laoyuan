@@ -13,5 +13,4 @@ test.*
 
 *.xls
 pass*
-gen_pass.rb
 *.sql

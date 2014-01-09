@@ -2,6 +2,9 @@
   %h1 佳木斯市教师测评问卷
   #progress{style: "background-position: 0px -180px;"}
   %hr/
+  %h3
+    = "#{@teacher.name}, #{@teacher.subject}, #{@teacher.gender}, #{@teacher.age}岁"
+  %hr.h3/
   %form.form-horizontal{action: '/vote/', method: "post"}
     = csrf_tag
     %input{type: "hidden", name:"tid", value:"#{@teacher.id}"}

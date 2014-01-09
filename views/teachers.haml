@@ -5,7 +5,9 @@
   - @teachers.each do |sub, teas|
     %h3
       = sub
-    %hr{style: "margin-top: 0; margin-bottom: 5px;"}/
-    - teas.each do |t|
-      %a{href: "/vote/#{t.id}/", style: "min-width: 40px; margin-right: 12px; margin-bottom: 4px; font-size: 15px; word-break: keep-all;"}
-        = "#{t.name}"
+    %hr.h3/
+    %ul.teachers.clearfix
+      - teas.each do |t|
+        %li
+          %a{href: "/vote/#{t.id}/"}
+            = "#{t.name}"

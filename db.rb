@@ -23,6 +23,8 @@ class Teacher
 
   property :name, String, :required => true
   property :subject, String, :required => true
+  property :gender, String
+  property :age, String
 
   belongs_to :school
 end
