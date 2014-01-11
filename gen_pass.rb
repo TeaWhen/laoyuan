@@ -10,7 +10,7 @@ CSV.open("pass.csv", "wb") do |csv|
   ss = School.all
   ss.each do |s|
     rand_pass = ""
-    8.times { rand_pass += "abcdefghijkmnpqrstuvwxyz123456789".split('').sample }
+    6.times { rand_pass += "0123456789".split('').sample }
     s.password = rand_pass
     s.save
     csv << [s.school_name, s.username, rand_pass]
